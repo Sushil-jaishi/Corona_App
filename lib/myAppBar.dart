@@ -1,13 +1,26 @@
 import 'package:corona/privacyPolicy.dart';
 import 'package:flutter/material.dart';
 
-class MyAppBar extends StatelessWidget{
+class MyAppBar extends StatefulWidget implements PreferredSizeWidget{
+
+  final String title;
+  MyAppBar({required this.title});
+  @override
+  State<MyAppBar> createState() => MyAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class MyAppBarState extends State<MyAppBar> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         backgroundColor: Colors.transparent,
-        title:Text('Hello User..'),
+        title:Text(widget.title),
         actions: <Widget>[
           Icon(Icons.info_outline),
           PopupMenuButton<String>(
@@ -30,20 +43,6 @@ class MyAppBar extends StatelessWidget{
       ),
     );
   }
-  void handleClick(String value) {
-    switch (value) {
-      case 'Profile':
-        break;
-      case 'Notices':
-        break;
-      case 'LogOut':
-        break;
-      case 'Privacy Policy':
-        break;
-      case 'Terms of service':
-        break;
-    }
-  }
 
   IconData? appbarIcon(String choice) {
     if(choice=='Profile'){
@@ -56,6 +55,13 @@ class MyAppBar extends StatelessWidget{
       return Icons.error_sharp;
     }else if(choice=='Terms of service'){
       return Icons.error;
+    }
+  }
+  handleClick(String value){
+    if(value=='Privacy Policy') {
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return PrivacyPolicy();
+      },));
     }
   }
 
